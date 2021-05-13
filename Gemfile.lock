@@ -163,6 +163,7 @@ GEM
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
     sqlite3 (1.4.2)
+    sysrandom (1.0.5)
     thin (1.8.0)
       daemons (~> 1.0, >= 1.0.9)
       eventmachine (~> 1.0, >= 1.0.4)
@@ -199,6 +200,7 @@ DEPENDENCIES
   sinatra
   sinatra-activerecord
   sqlite3
+  sysrandom
   thin
   tux
 
