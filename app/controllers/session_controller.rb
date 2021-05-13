@@ -1,10 +1,19 @@
 class SessionController < ApplicationController
     ## control session CRUD logic ##
-    ## create session
     
-    ## read session
+    ## signup logic
+    get '/signup' do
+    end
+    post '/sigup' do
+    end
 
-    ## update session
+    ## login logic
+    get '/login' do
+    end
+    post '/login' do
+    end
 
-    ## destroy session
+    ## logout logic
+    get '/logout' do
+    end
 end
