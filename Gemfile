@@ -12,6 +12,7 @@ gem 'require_all'
 gem 'shotgun'
 gem 'sinatra'
 gem 'sinatra-activerecord', :require => 'sinatra/activerecord'
+gem 'sysrandom'
 gem 'thin'
 
 group :development do
