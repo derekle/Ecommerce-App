@@ -16,5 +16,19 @@ class ApplicationController < Sinatra::Base
 
   # define helper methods for use in route handlers and templates: #
   helpers do
+
+    def redirect_to_dashboard
+      redirect '/'
+    end
+
+    def redirect_if_not_logged_in
+      if !logged_in?
+        redirect '/'
+      end
+    end
+
+    def is_unique_username
+      User.find_by_username(params[:username]) == nil
+    end
   end
 end 
