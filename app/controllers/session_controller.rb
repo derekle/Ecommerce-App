@@ -15,7 +15,9 @@ class SessionController < ApplicationController
     post '/login' do
     end
 
-    ## logout logic
+    ## logout logic - destroy session when navigating to this page - redirect to homepage
     get '/logout' do
+        session.destroy
+        erb :index
     end
 end
