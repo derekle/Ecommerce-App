@@ -27,8 +27,17 @@ class ApplicationController < Sinatra::Base
       end
     end
 
-    def is_unique_username
-      User.find_by_username(params[:username]) == nil
+    def is_unique?
+      users = Sellers.all + Users.all
+      binding.pry
+      .find_by_username(params[:username]) == nil
+    end
+
+    def is_buyer?
+    end
+
+    def is_seller?
+
     end
   end
 end 

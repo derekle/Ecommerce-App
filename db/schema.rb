@@ -10,6 +10,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_10_224052) do
+ActiveRecord::Schema.define(version: 2021_05_14_004751) do
+
+  create_table "buyers", force: :cascade do |t|
+    t.string "username"
+    t.string "password_digest"
+    t.integer "product_id"
+  end
+
+  create_table "products", force: :cascade do |t|
+    t.string "projectname"
+    t.float "price"
+    t.integer "client_id"
+  end
+
+  create_table "sellers", force: :cascade do |t|
+    t.string "username"
+    t.string "password_digest"
+    t.integer "product_id"
+  end
 
 end

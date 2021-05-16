@@ -1,4 +1,4 @@
-require_relative './config/environment'
+require './config/environment'
 require './app/controllers/application_controller.rb'
 
 # HTML Forms only support GET and POST requests. To perform other actions such as PUT, PATCH or DELETE, use the Rack::MethodOverride middleware.
@@ -6,6 +6,8 @@ require './app/controllers/application_controller.rb'
 # Invoke middleware
 use Rack::MethodOverride
 use SessionController
+use AccountController
+use ProductController
 # Run application
 run ApplicationController
 
