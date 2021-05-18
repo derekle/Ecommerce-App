@@ -1,1 +1,16 @@
-<h1>login</h1> 
+<!DOCTYPE html>
+<html>
+    <body>
+    <div style="padding-left: 16px;">
+    <h1>Login to Begin!</h1>
+
+        <% if logged_in? == false %>
+            <form action="/login" method="post">
+                <p><input name="username" type="text" placeholder="Username:" /> <input name="password" type="password" placeholder="Password:" /> <input type="submit" value="submit" /></p>
+                <p>New user? <a href="/signup">Register Now</a>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</p>
+            </form>
+        <% end %>
+        
+    </div>
+    </body>
+</html>

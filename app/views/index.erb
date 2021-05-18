@@ -1,1 +1,11 @@
-<h1>index</h1> 
+<!DOCTYPE html>
+<html>
+    <body>
+    <div style="padding-left: 16px;">
+
+    <h1>Index</h1> 
+        <% if logged_in? == true %>
+            <p>Welcome<%=current_user.username%></p>
+        <%end%>
+    </body>
+</html>
