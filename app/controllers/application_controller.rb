@@ -9,28 +9,30 @@ class ApplicationController < Sinatra::Base
 		# Solution found from sinatra documentation and user grempe in this thread: https://github.com/sinatra/sinatra/issues/1187
 		set :session_secret, 'password'
 	end
-		get '/' do
+  # index
+  get '/' do
 		erb :index
 	end
-		# define helper methods for use in route handlers and templates: #
+  # define helper methods for use in route handlers and templates: #
 	helpers do
 		def logged_in?
 			!!session[:user_id]
 		end
-				def redirect_to_index
+    def redirect_to_index
 			redirect '/'
 			erb :index
 		end
-				def redirect_if_not_logged_in
+    def redirect_if_not_logged_in
 			if !logged_in?
 				redirect "/login"
 				erb :login
 			end
 		end
-				def is_unique?
+    def is_unique?
 			User.find_by_username(params[:username]) == nil
 		end
-				def current_user
+    def current_user
 			User.find(session[:user_id])
 		end
 	end
+end

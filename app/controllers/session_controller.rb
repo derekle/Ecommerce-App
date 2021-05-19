@@ -45,3 +45,4 @@ class SessionController < ApplicationController
 			redirect_to_index
 		end
 	end
+end
