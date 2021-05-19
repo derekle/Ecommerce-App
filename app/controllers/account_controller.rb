@@ -6,16 +6,6 @@ class AccountController < ApplicationController
                 # redirect_if_not_logged_in
                 erb :'user/account'               
         end
-        #new   	displays create account form  
-        get '/account/new' do  
-            redirect_if_not_logged_in   
-            erb :index
-        end
-        #create 	creates one account
-        post '/account'  do
-            redirect_if_not_logged_in	        
-        end
-
         #show   	displays one account based on ID in the url
         get '/account/:id' 	do
             erb :'user/show'    
