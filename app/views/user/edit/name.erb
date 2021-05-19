@@ -3,7 +3,7 @@
     <body>
     <div style="padding-left: 16px;">
     <br></br>
-    <a href="/account">Account</a> > <a href="/account/<%=current_user.id%>">Login & Security</a> > <a href="/account/<%=current_user.id%>/edit/name">Name</a>
+    <a href="/account">Account</a> > <a href="/account/<%=current_user.id%>/edit/name">Login & Security</a> > <a href="/account/<%=current_user.id%>/edit/name">Name</a>
     <h1>Change your name</h1>
     <div class="form-bottom">
         <form role="form" action="/account/<%= current_user.id%>" method="post" class="signup-form">
@@ -12,10 +12,9 @@
                 <label class="sr-only" for="form-username">Username</label>
                 <input type="text" name="username" placeholder="Username..." class="form-username form-control" id="form-username" value="<%= current_user.username%>">
             </div>
-            <button type="submit" class="btn">Update</button>
+            <br></br>
+            <button type="submit" class="btn">Update</button>       
         </form>
-        <br>
     </div>
-
     </body>
 </html>

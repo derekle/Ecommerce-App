@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+   <body>
+      <div style="padding-left: 16px;">
+         <h1><%=Product.get_current_product.productname%></h1>
+         <%=erb :'/shared/table'%>
+      </div>
+      <h2>Seller</h2>
+      <%=Product.get_seller(@index)%>
+      <br></br>
+      <% if logged_in? == true %>
+        <%if current_user.id == Product.get_current_product.seller_id%>
+            <form action="/products/:id/edit" method="GET">
+                <input type="hidden" name="productid" value="<%=Product.get_current_product.id%>"> <input class="btn btn-primary" type="submit" value="Edit Item">
+            </form>
+        <%else%>
+            <form action="/account/<%=current_user.id%>/edit/cart" method="POST">
+                Quantity: <input type="number" placeholder="0" name="quantity"> <input type="hidden" name="productid" value="<%=Product.get_current_product.id%>"> <input class="btn btn-primary" type="submit" value="Add to Cart">
+            </form>
+        <%end%>
+      <%else%>
+      <p><a href="/signup">Sign Up</a> or <a href="/login">Log In</a> to buy!</p>
+      <%end%>
+   </body>
+</html>

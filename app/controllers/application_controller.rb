@@ -11,6 +11,7 @@ class ApplicationController < Sinatra::Base
 	end
   # index
   get '/' do
+		@products = Product.get_products
 		erb :index
 	end
   # define helper methods for use in route handlers and templates: #

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+   <head>
+   <style>
+      table {
+      font-family: arial, sans-serif;
+      border-collapse: collapse;
+      }
+      td, th {
+      border: 1px solid #dddddd;
+      text-align: left;
+      padding: 8px;
+      }
+      tr:nth-child(even) {
+      background-color: #dddddd;
+      }
+   </style>
+   </head>
+   <body>
+      <div style="padding-left: 16px;">
+      <h2>Product Table</h2>
+		<table>
+			<tr>
+				<th>Product Name</th>
+				<th>Price</th>
+				<th>Quantity</th>
+			</tr>
+			<tr>
+				<% @products.each do |product| %>
+            <tr>
+               <td><a href="/products/<%=product.id%>"><%=product.productname%></a></td>
+               <td>$<%=product.price%></td>
+               <td><%=product.quantity%></td>
+            </tr>
+			   <% end %>
+			</tr>
+		</table>   
+   </body>
+</html>

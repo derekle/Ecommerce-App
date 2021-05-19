@@ -6,7 +6,12 @@
     <h1>Your Account</h1> 
     <% if logged_in? == true %>
         <h2><p>Welcome, <%=current_user.username%>!</p></h2>
+        <h2><p>Current Funds: $<%=current_user.get_funds%></p></h2>
     <%end%>
+    <a href="/account/<%=current_user.id%>/edit/funds">Funds</a>
+    <br></br>
+    <a href="/account/<%=current_user.id%>/edit/orders">Orders</a>
+    <br></br>
     <a href="/account/<%=current_user.id%>">Login & Security</a>
     <br></br>
     <a href="/account/<%=current_user.id%>/edit/delete">Delete Account</a>
