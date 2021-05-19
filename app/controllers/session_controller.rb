@@ -24,7 +24,6 @@ class SessionController < ApplicationController
     ## login logic
 
     get '/login' do 
-        p logged_in?
         if !session[:user_id]
           erb :'session/login'
         else

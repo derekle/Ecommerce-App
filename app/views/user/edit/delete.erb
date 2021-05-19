@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+    <body>
+    <div style="padding-left: 16px;">
+    <br></br>
+    <a href="/account">Account</a> > <a href="/account/<%=current_user.id%>">Login & Security</a> > <a href="/account/<%=current_user.id%>/edit/delete">Delete Account</a>
+    <h1>Delete your account?</h1>
+        <form action="/account/<%= current_user.id %>" method="post">
+            <input type="hidden" id="hidden" name="_method" value="DELETE">
+            <button type="submit" class="btn btn-danger">Delete Acount</button>
+        </form>
+    </div>
+
+    </body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <style>
+        table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 50%;
+        }
+        td, th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+        }
+        tr:nth-child(even) {
+        background-color: #dddddd;
+        }
+    </style>
+    </head>
+
+    <body>
+
+    <div style="padding-left: 16px;">
+    <br></br>
+    <a href="/account">Account</a> > <a href="/account/<%=current_user.id%>">Login & Security</a>
+    <h1>Login & Security</h1> 
+    <table>
+        <tr>
+            <td><b>Name:</b><br>
+            <%=current_user.username%></br></td>
+            <td><a href="/account/<%=current_user.id%>/edit/name">Edit</a></td>
+        </tr>
+        <tr>
+            <td><b>Password:</b><br>
+            ********</br></td>
+            <td><a href="/account/<%=current_user.id%>/edit/password">Edit</a></td>
+        </tr>
+    </table>
+    </body>
+</html>
