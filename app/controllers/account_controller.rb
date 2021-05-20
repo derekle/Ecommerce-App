@@ -25,6 +25,7 @@ class AccountController < ApplicationController
 	end
     get '/account/:id/edit/orders' do
 		redirect_if_not_logged_in	  
+		@sellerid = current_user.id
 		erb :'user/edit/orders'    
 	end
 	get '/account/:id/edit/delete' do
@@ -61,7 +62,10 @@ class AccountController < ApplicationController
 		#delete - deletes one account based on ID in the url
 	delete  '/account/:id'	  do
 		redirect_if_not_logged_in 
-		current_user.delete
+		Product.all.where(seller_id:current_user.id).each do |x|
+			x.destroy
+		end
+		current_user.destroy
 		redirect to "/logout"
 	end
 end

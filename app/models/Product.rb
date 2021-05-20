@@ -59,11 +59,12 @@ class Product < ActiveRecord::Base
         @@cell_names
     end
 
-    def self.build_table(tablesize=self.all.size)
+    def self.build_table(sellerid)
+        p sellerid
         @@table.clear
         array = []
-         Product.get_products(tablesize).each do |product|
-            array << product.productname 
+         Product.where(seller_id:sellerid).each do |product|
+            array << product.productname
             Product.get_cells.each do |attribute|
                 array << product.send(attribute) 
             end

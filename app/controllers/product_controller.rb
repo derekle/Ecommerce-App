@@ -44,14 +44,22 @@ class ProductController < ApplicationController
         if current_user.funds >= Product.find(params[:productid]).price*params[:quantity].to_i
             allProductBySeller = Product.where(productname: Product.find(params[:productid]).productname , seller_id: Product.find(params[:productid]).seller_id)
             allProductByBuyer = Product.where(productname: Product.find(params[:productid]).productname , seller_id:current_user.id)
+            fee = Product.find(params[:productid]).price*params[:quantity].to_i
+            if (current_user.funds -= fee) < 0
+                redirect :"/products/#{params[:productid]}"
+            end
+            
+            User.find(Product.find(params[:productid]).seller_id).update(funds:User.find(Product.find(params[:productid]).seller_id).funds += fee)
+            current_user.update(funds:current_user.funds -= fee)
+
             allProductBySeller.first(params[:quantity].to_i).each do |product|
                 product.update(seller_id:current_user.id)
             end
             Product.all.map(&:seller_id).uniq.each do |seller_id|
                 Product.update_quantity(Product.find(params[:productid]).productname, seller_id)
             end
-            updated_funds = current_user.funds -= Product.find(params[:productid]).price*params[:quantity].to_i
-            current_user.update(funds:updated_funds)
+            
+            
             redirect :"/account/#{current_user.id}/edit/orders"
         else
             redirect :"/products/#{params[:productid]}"
@@ -92,5 +100,9 @@ class ProductController < ApplicationController
     # delete product - deletes one product based on ID in the url
     delete '/products/:id' do
         redirect_if_not_logged_in
+		if Product.find(params[:id]).seller_id == current_user.id
+			Product.find(params[:id]).destroy
+			redirect_to_index
+		end
     end
 end

@@ -5,6 +5,8 @@
     <br></br>
     <a href="/account">Account</a> > <a href="/account/<%=current_user.id%>/edit/orders">Orders</a>
     <h1>Orders</h1>
-    <p><%=current_user.product_id %></p>
+    <%Product.set_columns(["Product Name","Price","Quantity"])%>
+    <%Product.set_cells(["price","quantity", "seller_id"])%>
+    <%=erb :'/shared/table'%>    
     </body>
 </html>

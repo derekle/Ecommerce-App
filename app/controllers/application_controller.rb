@@ -11,7 +11,7 @@ class ApplicationController < Sinatra::Base
 	end
   # index
   get '/' do
-		@tablesize = Product.all.size
+		@sellerid=Product.all.map(&:seller_id).uniq
 		erb :index
 	end
   # define helper methods for use in route handlers and templates: #
