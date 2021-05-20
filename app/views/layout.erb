@@ -75,12 +75,6 @@
    <body>
       <div class="topnav">
          <a class="active" href="/">App</a>
-         <div class="search-container">
-            <form action="/search", method="GET">
-               <input type="text" placeholder="Search.." name="search">
-               <button type="submit"><i class="fa fa-search"></i></button>
-            </form>
-         </div>
          <% if logged_in? == true %>
 		   <a href="/products/create">Sell</a>
          <a href="/account">Account</a>
