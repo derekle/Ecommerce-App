@@ -2,7 +2,18 @@
 <html>
    <body>
       <div style="padding-left: 16px;">
-         <h1>product/edit</h1>
+         <h1>Edit Your <%=@productname%> Item(s)</h1>
+         <form role="form" action="/products/<%=@productid%>"  method="post" class="signup-form">
+            <input id="hidden" type="hidden" name="_method" value="PATCH">
+            <input type="hidden" name="productid" value="<%=@productid%>">
+            <input type="hidden" name="sellerid" value="<%=@sellerid%>">
+
+            <p>Product Name: <input type="text" name="productname"></p>
+            <p>Price: <input type="number" name="price"></p>
+            <p>Quantity to Edit: <input type="number" name="quantity"></p>
+
+            <input class="btn btn-primary" type="submit">
+         </form>
       </div>
    </body>
 </html>

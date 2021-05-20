@@ -1,39 +1,43 @@
 <!DOCTYPE html>
 <html>
    <head>
-   <style>
-      table {
-      font-family: arial, sans-serif;
-      border-collapse: collapse;
-      }
-      td, th {
-      border: 1px solid #dddddd;
-      text-align: left;
-      padding: 8px;
-      }
-      tr:nth-child(even) {
-      background-color: #dddddd;
-      }
-   </style>
+      <style>
+         table {
+         font-family: arial, sans-serif;
+         border-collapse: collapse;
+         }
+         td, th {
+         border: 1px solid #dddddd;
+         text-align: left;
+         padding: 8px;
+         }
+         tr:nth-child(even) {
+         background-color: #dddddd;
+         }
+      </style>
    </head>
    <body>
       <div style="padding-left: 16px;">
-      <h2>Product Table</h2>
-		<table>
-			<tr>
-				<th>Product Name</th>
-				<th>Price</th>
-				<th>Quantity</th>
-			</tr>
-			<tr>
-				<% @products.each do |product| %>
-            <tr>
-               <td><a href="/products/<%=product.id%>"><%=product.productname%></a></td>
-               <td>$<%=product.price%></td>
-               <td><%=product.quantity%></td>
-            </tr>
-			   <% end %>
-			</tr>
-		</table>   
+      <h2>Table</h2>
+      <table>
+         <tr>
+            <% Product.get_columns.each do |title|%>
+               <th><%=title%></th>
+            <%end%>
+         </tr>
+         <tr>
+            <%Product.build_table.each do |product|%>
+               <tr>
+               <%product.each do |attribute|%>
+                  <%if product.find_index(attribute) == 0%>
+                     <td><a href="/products/<%=product[3]%>/<%=Product.get_id(attribute, product[1],product[3])%>"><%=attribute%></a></td>
+                  <%else%>
+                  <td><%=attribute%></td>
+                  <%end%>
+               <%end%>
+               </tr>
+            <%end%>
+         </tr>
+      </table>
    </body>
 </html>

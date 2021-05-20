@@ -33,20 +33,6 @@ class AccountController < ApplicationController
 	end
 
 		#update - modifies an existing account based on ID in the url
-    post '/account/:id/edit/cart' do
-        redirect_if_not_logged_in	  
-        product = Product.find(params[:productid])
-        if params[:quantity].to_i > 0 && params[:quantity].to_i < product.quantity
-            if current_user.id != product.buyer_id
-                product.update(buyer_id:current_user.id)
-                erb :'user/edit/cart'   
-            else
-                redirect :"/products/#{params[:id].to_i}"
-            end
-        else
-            redirect :"/products/#{params[:id].to_i}"
-        end
-    end
 	patch '/account/:id/edit/name'	do
 		redirect_if_not_logged_in 
 		if !params[:username].empty?
@@ -64,6 +50,9 @@ class AccountController < ApplicationController
     patch '/account/:id/edit/funds'	do
         redirect_if_not_logged_in
         if !params[:funds].empty?
+			if current_user.funds == nil
+				current_user.update(funds:"0.0")
+			end
             updated_funds = User.find(params[:id]).funds += params[:funds].to_f
             User.find(params[:id]).update(funds:updated_funds)
         end     

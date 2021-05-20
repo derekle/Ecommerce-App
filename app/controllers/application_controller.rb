@@ -11,7 +11,7 @@ class ApplicationController < Sinatra::Base
 	end
   # index
   get '/' do
-		@products = Product.get_products
+		@tablesize = Product.all.size
 		erb :index
 	end
   # define helper methods for use in route handlers and templates: #
@@ -35,5 +35,8 @@ class ApplicationController < Sinatra::Base
     def current_user
 			User.find(session[:user_id])
 		end
+	end
+	def current_project
+		Project.get_current_product
 	end
 end
