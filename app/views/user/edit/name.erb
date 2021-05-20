@@ -6,7 +6,7 @@
     <a href="/account">Account</a> > <a href="/account/<%=current_user.id%>/edit/name">Login & Security</a> > <a href="/account/<%=current_user.id%>/edit/name">Name</a>
     <h1>Change your name</h1>
     <div class="form-bottom">
-        <form role="form" action="/account/<%= current_user.id%>" method="post" class="signup-form">
+        <form role="form" action="/account/<%= current_user.id%>/edit/name" method="post" class="signup-form">
             <input id="hidden" type="hidden" name="_method" value="PATCH">
             <div class="form-group">
                 <label class="sr-only" for="form-username">Username</label>
