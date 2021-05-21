@@ -11,7 +11,7 @@ class SessionController < ApplicationController
 		else
 			# check if username is unique
 			if is_unique?
-				@user = User.create(:username => params[:username], :password => params[:password])
+				@user = User.create(:username => params[:username], :password => params[:password], funds:0.0)
 				session[:user_id] = @user.id
 				redirect_to_index
 			else

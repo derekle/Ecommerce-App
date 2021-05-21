@@ -25,7 +25,7 @@ class AccountController < ApplicationController
 	end
     get '/account/:id/edit/orders' do
 		redirect_if_not_logged_in	  
-		@ownerid = current_user.id.to_a
+		@ownerid = Array.new(1, current_user.id)
 		erb :'user/edit/orders'    
 	end
 	get '/account/:id/edit/delete' do

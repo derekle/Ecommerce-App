@@ -14,15 +14,19 @@ class ProductController < ApplicationController
     # create product - creates one product
     post '/products' do
         if !params[:productname].empty? && !params[:price].empty? && !params[:quantity].empty?
-            params[:quantity].to_i.times{Product.create(productname:params[:productname], price:params[:price], quantity:params[:quantity], seller_id:session[:user_id])}
+            if Product.where(productname:params[:productname],owner_id:current_user.id).empty?
+                Product.create(productname:params[:productname], price:params[:price], quantity:params[:quantity], owner_id:session[:user_id])
+            else 
+                redirect "/products/#{Product.where(productname:params[:productname],owner_id:current_user.id).first.id}/edit/sell"
+            end
         end
         redirect_to_index
     end
     # show product - displays one product based on ID in the url
-    get '/products/:seller_id/:id' do
-        @sellerid = params[:seller_id].to_i
-        p @sellerid
-        Product.set_product(Product.where(id:params[:id], seller_id:@sellerid).first)
+    get '/products/:owner_id/:id' do
+        @ownerid = params[:owner_id].to_i
+        p @ownerid
+        Product.set_product(Product.where(id:params[:id], owner_id:@ownerid).first)
         p Product.get_current_product
         erb :'/product/show'
     end   
@@ -30,68 +34,37 @@ class ProductController < ApplicationController
     get '/products/:id/edit/sell' do
         @productname = Product.find(params[:id]).productname
         @productid = params[:id]
-        @sellerid = params[:sellerid]
-        Product.set_product(Product.allProductBySeller(params[:id]).first)
+        @ownerid = params[:ownerid]
+        Product.set_product(Product.allProductByOwner(params[:id]).first)
         erb :'/product/edit'
     end
 
-    get '/products/:id/edit/buy' do
+    post '/products/:id/edit/buy' do
         redirect_if_not_logged_in
         #check if user has funds
-        if current_user.funds == nil
-            current_user.update(funds:"0.0")
+        if !User.funds?(params,current_user)
+            redirect '/account/:id/edit/funds'
         end
-        if current_user.funds >= Product.find(params[:productid]).price*params[:quantity].to_i
-            allProductBySeller = Product.where(productname: Product.find(params[:productid]).productname , seller_id: Product.find(params[:productid]).seller_id)
-            allProductByBuyer = Product.where(productname: Product.find(params[:productid]).productname , seller_id:current_user.id)
-            fee = Product.find(params[:productid]).price*params[:quantity].to_i
-            if (current_user.funds -= fee) < 0
-                redirect :"/products/#{params[:productid]}"
-            end
-            
-            User.find(Product.find(params[:productid]).seller_id).update(funds:User.find(Product.find(params[:productid]).seller_id).funds += fee)
-            current_user.update(funds:current_user.funds -= fee)
-
-            allProductBySeller.first(params[:quantity].to_i).each do |product|
-                product.update(seller_id:current_user.id)
-            end
-            Product.all.map(&:seller_id).uniq.each do |seller_id|
-                Product.update_quantity(Product.find(params[:productid]).productname, seller_id)
-            end
-            
-            
-            redirect :"/account/#{current_user.id}/edit/orders"
-        else
+        if Product.find(params[:productid]).quantity == 0
             redirect :"/products/#{params[:productid]}"
         end
+        Product.buy(params,current_user)
+        redirect_to_index
     end
     # update product - modifies an existing product based on ID in the url
     patch '/products/:id' do
         redirect_if_not_logged_in
-        allProductBySeller = Product.where(productname: Product.find(params[:productid]).productname , seller_id: Product.find(params[:productid]).seller_id)
-        allProductByBuyer = Product.where(productname: Product.find(params[:productid]).productname , seller_id:current_user.id)
-        #must enter quantity
-        if params[:quantity].empty?
-            redirect :"/products/#{params[:productid]}/edit/sell"
-        end
-        if params[:quantity].to_i > Product.find(params[:productid]).quantity
-            redirect :"/products/#{params[:productid]}/edit/sell"
-        end
+        this_product = Product.find(params[:productid])
         if !params[:productname].empty?
-            allProductBySeller.first(params[:quantity].to_i).each do |product|
-                product.update(productname:params[:productname])
-            end
+            this_product.update(productname:params[:productname])
         end
         if !params[:price].empty?
-            allProductBySeller.first(params[:quantity].to_i).each do |product|
-                product.update(price:params[:price])
-            end
+            this_product.update(price:params[:price])
         end
-            ##update quantity for this seller's listings
-            Product.all.map(&:seller_id).uniq.each do |seller_id|
-                Product.update_quantity(Product.find(params[:productid]).productname, params[:sellerid])
-            end            
-        erb :index
+        if !params[:quantity].empty?
+            this_product.update(quantity:params[:quantity])
+        end
+        redirect_to_index
     end
     # update product - replaces an existing product based on ID in the url
     put '/products/:id' do
@@ -100,9 +73,9 @@ class ProductController < ApplicationController
     # delete product - deletes one product based on ID in the url
     delete '/products/:id' do
         redirect_if_not_logged_in
-		if Product.find(params[:id]).seller_id == current_user.id
+		if Product.find(params[:id]).owner_id == current_user.id
 			Product.find(params[:id]).destroy
-			redirect_to_index
 		end
+        redirect_to_index
     end
 end

@@ -16,7 +16,7 @@
         <%else%>
             <form role="form" action="/products/<%=Product.get_current_product.id%>/edit/buy" method="POST">
                 <% if Product.get_current_product.quantity != 0%>
-                    Quantity: <input type="number" placeholder="0" name="quantity"> <input type="hidden" name="productid" value="<%=Product.get_current_product.id%>"> <input class="btn btn-primary" type="submit" value="Buy">
+                    Quantity: <input type="number" placeholder="0" min="1" max=<%=Product.get_current_product.quantity%> name="quantity"> <input type="hidden" name="productid" value="<%=Product.get_current_product.id%>"> <input class="btn btn-primary" type="submit" value="Buy">
                 <%end%>
                 </form>
         <%end%>
