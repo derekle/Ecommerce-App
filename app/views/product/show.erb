@@ -5,18 +5,20 @@
          <h1><%=Product.get_current_product.productname%></h1>
          <h2>$<%=Product.get_current_product.price%></h2>
          <h2><%=Product.get_current_product.quantity%> units available</h2>
-      <h2>Seller:</h2>
-      <%=Product.get_seller(@sellerid)%>
+      <h2>Owner:</h2>
+      <%=Product.get_owner(@ownerid)%>
       <br></br>
       <% if logged_in? == true %>
-        <%if current_user.id == @sellerid.to_i%>
+        <%if current_user.id == @ownerid.to_i%>
             <form action="/products/<%=Product.get_current_product.id%>/edit/sell" method="GET">
-            <input type="hidden" name="sellerid" value="<%=@sellerid.to_i%>"> <input class="btn btn-primary" type="submit" value="Edit">
+            <input type="hidden" name="ownerid" value="<%=@ownerid.to_i%>"> <input class="btn btn-primary" type="submit" value="Edit">
             </form>
         <%else%>
-            <form action="/products/<%=Product.get_current_product.id%>/edit/buy" method="GET">
-                Quantity: <input type="number" placeholder="0" name="quantity"> <input type="hidden" name="productid" value="<%=Product.get_current_product.id%>"> <input class="btn btn-primary" type="submit" value="Buy">
-            </form>
+            <form role="form" action="/products/<%=Product.get_current_product.id%>/edit/buy" method="POST">
+                <% if Product.get_current_product.quantity != 0%>
+                    Quantity: <input type="number" placeholder="0" name="quantity"> <input type="hidden" name="productid" value="<%=Product.get_current_product.id%>"> <input class="btn btn-primary" type="submit" value="Buy">
+                <%end%>
+                </form>
         <%end%>
       <%else%>
       <p><a href="/signup">Sign Up</a> or <a href="/login">Log In</a> to buy!</p>

@@ -3,8 +3,8 @@
    <body>
       <div style="padding-left: 16px;">
       <h1>Index</h1>
-      <%Product.set_columns(["Product Name","Price","Quantity", "Seller"])%>
-      <%Product.set_cells(["price","quantity", "seller_id"])%>
+      <%Product.set_columns(["Product Name","Price","Quantity", "Owner"])%>
+      <%Product.set_cells(["price","quantity", "owner_id"])%>
       <%=erb :'/shared/table'%>
    </body>
 </html>

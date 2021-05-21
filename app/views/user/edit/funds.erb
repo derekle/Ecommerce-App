@@ -4,7 +4,7 @@
     <div style="padding-left: 16px;">
     <br></br>
     <a href="/account">Account</a> > <a href="/account/<%=current_user.id%>">Funds</a>
-    <h1>Your Funds</h1>
+    <h1>Your Funds: $<%=current_user.funds%></h1>
     <div class="form-bottom">
         <form role="form" action="/account/<%= current_user.id%>/edit/funds" method="post" class="signup-form">
             <input id="hidden" type="hidden" name="_method" value="PATCH">

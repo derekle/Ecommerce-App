@@ -11,7 +11,9 @@ class ApplicationController < Sinatra::Base
 	end
   # index
   get '/' do
-		@sellerid=Product.all.map(&:seller_id).uniq
+	p "/"
+	binding.pry
+		@ownerid=Product.all.map(&:owner_id).uniq
 		erb :index
 	end
   # define helper methods for use in route handlers and templates: #
@@ -21,7 +23,6 @@ class ApplicationController < Sinatra::Base
 		end
     def redirect_to_index
 			redirect '/'
-			erb :index
 		end
     def redirect_if_not_logged_in
 			if !logged_in?
