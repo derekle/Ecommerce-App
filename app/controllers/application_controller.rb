@@ -11,7 +11,6 @@ class ApplicationController < Sinatra::Base
 	end
   # index
   get '/' do
-binding.pry
 		@ownerid=Product.all.map(&:owner_id).uniq
 		erb :index
 	end

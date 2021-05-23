@@ -12,7 +12,7 @@ class User < ActiveRecord::Base
     end
 
     def self.funds?(params,current_user)
-        binding.pry
+        
         if current_user.funds == nil || current_user.funds == 0
             current_user.update(funds:"0.0")
             false

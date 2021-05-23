@@ -72,7 +72,7 @@ class Product < ActiveRecord::Base
         if this_product.quantity == 0
             this_product.destroy
         end
-        binding.pry
+        
         current_user.update(funds:current_user.funds-this_product.price*params[:quantity].to_i)
         User.find(this_product.owner_id).update(funds:User.find(this_product.owner_id).funds+this_product.price*params[:quantity].to_i)
     end
