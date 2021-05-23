@@ -6,12 +6,12 @@
          <h2>$<%=Product.get_current_product.price%></h2>
          <h2><%=Product.get_current_product.quantity%> units available</h2>
       <h2>Owner:</h2>
-      <%=Product.get_owner(@ownerid)%>
+      <%=Product.get_user(@userid)%>
       <br></br>
       <% if logged_in? == true %>
-        <%if current_user.id == @ownerid.to_i%>
+        <%if current_user.id == @userid.to_i%>
             <form action="/products/<%=Product.get_current_product.id%>/edit/sell" method="GET">
-            <input type="hidden" name="ownerid" value="<%=@ownerid.to_i%>"> <input class="btn btn-primary" type="submit" value="Edit">
+            <input type="hidden" name="userid" value="<%=@userid.to_i%>"> <input class="btn btn-primary" type="submit" value="Edit">
             </form>
         <%else%>
             <form role="form" action="/products/<%=Product.get_current_product.id%>/edit/buy" method="POST">

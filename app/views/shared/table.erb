@@ -26,7 +26,7 @@
             <%end%>
          </tr>
          <tr>
-            <%Product.build_table(@ownerid).each do |product|%>
+            <%Product.build_table(@userid).each do |product|%>
                <tr>
                <%product.each do |attribute|%>
                   <%if product.find_index(attribute) == 0%>

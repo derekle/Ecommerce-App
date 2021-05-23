@@ -4,7 +4,7 @@
       <div style="padding-left: 16px;">
       <h1>Marketplace</h1>
       <%Product.set_columns(["Product Name","Price","Quantity", "Owner"])%>
-      <%Product.set_cells(["price","quantity", "owner_id"])%>
+      <%Product.set_cells(["price","quantity", "user_id"])%>
       <%=erb :'/shared/table'%>
    </body>
 </html>

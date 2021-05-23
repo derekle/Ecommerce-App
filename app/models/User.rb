@@ -1,7 +1,7 @@
 class User < ActiveRecord::Base
     ## User class logic ##
     has_secure_password
-    has_many :products
+    has_many :products, :dependent => :destroy
     @@cart = []
 
     def get_funds

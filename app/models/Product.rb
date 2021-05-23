@@ -1,7 +1,7 @@
 require 'sinatra'
 class Product < ActiveRecord::Base
     ## Product class logic ##
-    belongs_to :owners
+    belongs_to :users
     belongs_to :buyers
     @@current_product = nil
     @@column_names = []
@@ -15,11 +15,11 @@ class Product < ActiveRecord::Base
         self.all
     end
 
-    def self.get_owner(id)
+    def self.get_user(id)
         p id
-        @owner = User.where(id:id.to_i).first.username
-        p @owner
-        @owner
+        @user = User.where(id:id.to_i).first.username
+        p @user
+        @user
     end
 
     def self.set_product(product)
@@ -35,8 +35,8 @@ class Product < ActiveRecord::Base
         self.all[id].buyer_id
     end
 
-    def self.set_owner(productid, ownerid)
-        self.all[productid].owner_id = ownerid
+    def self.set_user(productid, userid)
+        self.all[productid].user_id = userid
     end
 
     
@@ -61,10 +61,10 @@ class Product < ActiveRecord::Base
 
     def self.buy(params, current_user)
         this_product = Product.find(params[:productid])
-        allProductByOwner = Product.where(productname:this_product.productname, price:this_product.price, owner_id:this_product.owner_id)
-        allProductByBuyer = Product.where(productname:this_product.productname, price:this_product.price, owner_id:current_user.id)
+        allProductByUser = Product.where(productname:this_product.productname, price:this_product.price, user_id:this_product.user_id)
+        allProductByBuyer = Product.where(productname:this_product.productname, price:this_product.price, user_id:current_user.id)
         if allProductByBuyer.empty?
-            Product.create(this_product.attributes.except("id").merge(owner_id:current_user.id, quantity:params[:quantity].to_i))
+            Product.create(this_product.attributes.except("id").merge(user_id:current_user.id, quantity:params[:quantity].to_i))
         else 
             allProductByBuyer[0].update(quantity:this_product.quantity+params[:quantity].to_i)
         end
@@ -74,15 +74,15 @@ class Product < ActiveRecord::Base
         end
         
         current_user.update(funds:current_user.funds-this_product.price*params[:quantity].to_i)
-        User.find(this_product.owner_id).update(funds:User.find(this_product.owner_id).funds+this_product.price*params[:quantity].to_i)
+        User.find(this_product.user_id).update(funds:User.find(this_product.user_id).funds+this_product.price*params[:quantity].to_i)
     end
 
 
-    def self.build_table(ownerid)
-        p ownerid
+    def self.build_table(userid)
+        p userid
         @@table.clear
         array = []
-         Product.where(owner_id:ownerid).each do |product|
+         Product.where(user_id:userid).each do |product|
             array << product.productname
             Product.get_cells.each do |attribute|
                 array << product.send(attribute) 
@@ -91,23 +91,23 @@ class Product < ActiveRecord::Base
         @@table = array.each_slice(get_cells.size+1).to_a.uniq
         @@table
     end
-    def self.update_quantity(productname, myowner_id)
+    def self.update_quantity(productname, myuser_id)
         Product.all.map(&:productname).uniq.each do |tag|
             qty = Product.all.count{|product| product.productname == tag}
-            Product.where(productname:tag, owner_id:myowner_id).each do |p|
+            Product.where(productname:tag, user_id:myuser_id).each do |p|
                 p.update(quantity:qty)
             end
         end
     end
-    def self.allProductByOwner(x)
-        Product.where(productname: Product.find(x).productname , owner_id: Product.find(x).owner_id)
+    def self.allProductByUser(x)
+        Product.where(productname: Product.find(x).productname , user_id: Product.find(x).user_id)
     end
 
     def self.allProductByBuyer(x, y)
-        Product.where(productname: Product.find(x).productname , owner_id:y)
+        Product.where(productname: Product.find(x).productname , user_id:y)
     end
 
-    def self.get_id(productname, price, ownerid)
-        Product.where(productname:productname , price:price, owner_id:ownerid).first.id
+    def self.get_id(productname, price, userid)
+        Product.where(productname:productname , price:price, user_id:userid).first.id
     end
 end

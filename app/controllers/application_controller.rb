@@ -11,7 +11,8 @@ class ApplicationController < Sinatra::Base
 	end
   # index
   get '/' do
-		@ownerid=Product.all.map(&:owner_id).uniq
+	
+		@userid=Product.all.map(&:user_id).uniq
 		erb :index
 	end
   # define helper methods for use in route handlers and templates: #

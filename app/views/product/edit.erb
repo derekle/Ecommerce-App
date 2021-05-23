@@ -6,7 +6,7 @@
          <form role="form" action="/products/<%=@productid%>"  method="post" class="signup-form">
             <input id="hidden" type="hidden" name="_method" value="PATCH">
             <input type="hidden" name="productid" value="<%=@productid%>">
-            <input type="hidden" name="ownerid" value="<%=@ownerid%>">
+            <input type="hidden" name="userid" value="<%=@userid%>">
 
             <p>Product Name: <input type="text" name="productname"></p>
             <p>Price: <input type="number" name="price"></p>
@@ -19,7 +19,7 @@
             <input type="hidden" id="hidden" name="_method" value="DELETE">
             <input type="hidden" name="productname" value="<%=@productname%>">
             <input type="hidden" name="productid" value="<%=@productid%>">
-            <input type="hidden" name="ownerid" value="<%=@ownerid%>">
+            <input type="hidden" name="userid" value="<%=@userid%>">
             <button type="submit" class="btn btn-danger">Delete Listing</button></p> 
         </form>
       </div>

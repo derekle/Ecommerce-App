@@ -14,28 +14,31 @@ class ProductController < ApplicationController
     # create product - creates one product
     post '/products' do
         if !params[:productname].empty? && !params[:price].empty? && !params[:quantity].empty?
-            if Product.where(productname:params[:productname],owner_id:current_user.id).empty?
-                Product.create(productname:params[:productname], price:params[:price], quantity:params[:quantity], owner_id:session[:user_id])
+            if Product.where(productname:params[:productname],user_id:current_user.id).empty?
+                Product.create(productname:params[:productname], price:params[:price], quantity:params[:quantity], user_id:session[:user_id])
             else 
-                redirect "/products/#{Product.where(productname:params[:productname],owner_id:current_user.id).first.id}/edit/sell"
+                redirect "/products/#{Product.where(productname:params[:productname],user_id:current_user.id).first.id}/edit/sell"
             end
         end
         redirect_to_index
     end
     # show product - displays one product based on ID in the url
-    get '/products/:owner_id/:id' do
-        @ownerid = params[:owner_id].to_i
-        p @ownerid
-        Product.set_product(Product.where(id:params[:id], owner_id:@ownerid).first)
+    get '/products/:user_id/:id' do
+        @userid = params[:user_id].to_i
+        p @userid
+        Product.set_product(Product.where(id:params[:id], user_id:@userid).first)
         p Product.get_current_product
         erb :'/product/show'
     end   
     # edit product - displays edit form based on ID in the url
     get '/products/:id/edit/sell' do
-        @productname = Product.find(params[:id]).productname
-        @productid = params[:id]
-        @ownerid = params[:ownerid]
-        Product.set_product(Product.allProductByOwner(params[:id]).first)
+        redirect_if_not_logged_in
+        if current_user.id == Product.find(params[:id]).user_id
+            @productname = Product.find(params[:id]).productname
+            @productid = params[:id]
+            @userid = params[:userid]
+            Product.set_product(Product.allProductByUser(params[:id]).first)
+        end
         erb :'/product/edit'
     end
 
@@ -73,7 +76,7 @@ class ProductController < ApplicationController
     # delete product - deletes one product based on ID in the url
     delete '/products/:id' do
         redirect_if_not_logged_in
-		if Product.find(params[:id]).owner_id == current_user.id
+		if Product.find(params[:id]).user_id == current_user.id
 			Product.find(params[:id]).destroy
 		end
         redirect_to_index
